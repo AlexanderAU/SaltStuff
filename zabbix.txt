@@ -1,0 +1,16 @@
+rpm -Uvh http://repo.zabbix.com/zabbix/3.4/rhel/6/x86_64/zabbix-release-3.4-1.el6.noarch.rpm$
+  cmd.run
+
+zabbix-agent:
+  pkg:
+    - installed
+
+/etc/zabbix/zabbix_agentd.conf:
+  file.managed:
+    - source: salt://zabbix_agentd.conf
+
+hostn=$(hostname) && echo "Hostname="$hostn >> /etc/zabbix/zabbix_agentd.conf:
+  cmd.run
+
+service zabbix-agent restart:
+  cmd.run
